@@ -14,7 +14,7 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'start',
     flexDirection: 'column',
     minHeight: '100vh',
-    backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[0],
+   
   },
   description: {
     marginTop: theme.spacing.xl,

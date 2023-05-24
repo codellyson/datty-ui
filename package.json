@@ -1,9 +1,9 @@
 {
-  "name": "mantine-next-template",
+  "name": "datty-ui",
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 7020",
     "build": "next build",
     "analyze": "ANALYZE=true next build",
     "start": "next start",

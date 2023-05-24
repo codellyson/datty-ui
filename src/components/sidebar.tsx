@@ -1,7 +1,5 @@
 import { CATEGORIES } from '@/data';
-import { useRoutes } from '@/hooks/use-routes';
-import { NavLink, Navbar, ScrollArea, Stack, Text } from '@mantine/core';
-import { IconChevronRight } from '@tabler/icons-react';
+import { NavLink, Navbar, ScrollArea } from '@mantine/core';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -55,70 +53,5 @@ export const Sidebar = () => {
       </Navbar.Section>
 
     </Navbar>
-  );
-};
-
-export type SidebarProps = {
-  section: any;
-};
-const SideBarSection = ({ section }: SidebarProps) => {
-  console.log(section);
-  return section.components.length > 0 ? (
-    <NavLink rightSection={<IconChevronRight size="0.8rem" stroke={1.5} />} label={section.title}>
-      {section.components.map((component: any) => (
-        <NavLink
-          component={Link}
-          key={component.title}
-          label={component.name}
-          href={component.url.toString()}
-          active={component.active}
-        />
-      ))}
-    </NavLink>
-  ) : (
-    <NavLink
-      variant="outline"
-      mt="md"
-      mb="xs"
-      component={Link}
-      px={0}
-      href={section.url}
-      active={section.active}
-      styles={{
-        label: {
-          fontWeight: section.active ? 'bold' : 'normal',
-          textTransform: 'capitalize',
-        },
-      }}
-      label={section.title}
-    />
-  );
-};
-
-const SidebarContent = () => {
-  const routes = useRoutes();
-  // console.log(routes);
-
-  return (
-    <Stack>
-      {routes.map((category, cid) => (
-        <div key={cid}>
-          <Text
-            size="sm"
-            weight="bolder"
-            mt="md"
-            mb="xs"
-            // href={section.url}
-            style={{}}
-            transform="uppercase"
-          >
-            {category.title}
-          </Text>
-          {category.sections.map((section) => (
-            <SideBarSection section={section} key={section.title} />
-          ))}
-        </div>
-      ))}
-    </Stack>
   );
 };

@@ -1,3 +1,4 @@
+/* eslint-disable import/order */
 import { CategoryPage } from '@/components/CategoryPage/CategoryPage';
 import { CATEGORIES_SLUGS, Category, getCategoryData } from '@/data';
 import { getAllComponents, getComponentsByCategory } from '@/data/component';
@@ -13,14 +14,10 @@ export const getStaticPaths: GetStaticPaths = async () => ({
 export const getStaticProps: GetStaticProps<
   { category: Category | undefined },
   { category: string }
-> = (context) => {
-  console.log(getComponentsByCategory()[context!.params!.category]);
-
-  return {
+> = (context) => ({
     props: {
       category: getCategoryData(context!.params!.category),
       components: getComponentsByCategory()[context!.params!.category],
       allComponents: getAllComponents(),
     },
-  };
-};
+  });
