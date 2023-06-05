@@ -10,7 +10,7 @@ import { CodeStateControl } from './CodeStateControl/CodeStateControl';
 
 export function ComponentCanvas(props: UiComponent & { zIndex: number }) {
   const [state, setState] = useState('preview');
-  const [primaryColor, setPrimaryColor] = useState('blue');
+  const [primaryColor, setPrimaryColor] = useState('violet');
   const [codeState, setCodeState] = useState<'code' | 'mockdata'>('code');
   const { classes, cx } = useStyles();
   const Component: any = UiComponents[props.component as keyof typeof UiComponents];
