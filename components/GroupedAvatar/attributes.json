@@ -1,0 +1,9 @@
+{
+  "title": "Group Avatar",
+  "category": "avatars",
+  "author": "codellyson",
+  "dependencies": ["/core/avatar/", "/core/group/"],
+  "canvas": {
+    "center": true
+  }
+}

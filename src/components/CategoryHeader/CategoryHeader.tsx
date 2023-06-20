@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { Title, Anchor, Center, Box } from '@mantine/core';
-import { IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
+import { Anchor, Box, Center, Title, UnstyledButton } from '@mantine/core';
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react';
+import { useRouter } from 'next/router';
 import { Category } from '../../data';
 import useStyles from './CategoryHeader.styles';
 
@@ -10,9 +10,10 @@ interface CategoryHeaderProps {
 
 export function CategoryHeader({ category }: CategoryHeaderProps) {
   const { classes, theme } = useStyles();
+  const router = useRouter();
   return (
     <>
-      <Link href="/#main" passHref>
+      <UnstyledButton onClick={() => router.back()}>
         <Anchor>
           <Center inline>
             {theme.dir === 'rtl' ? (
@@ -25,7 +26,7 @@ export function CategoryHeader({ category }: CategoryHeaderProps) {
             </Box>
           </Center>
         </Anchor>
-      </Link>
+      </UnstyledButton>
 
       <Title className={classes.title}>{category.name}</Title>
     </>

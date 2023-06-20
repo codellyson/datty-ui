@@ -1,0 +1,9 @@
+{
+  "title": "Simple Avatar",
+  "category": "avatars",
+  "author": "codellyson",
+  "dependencies": ["/core/avatar/"],
+  "canvas": {
+    "center": true
+  }
+}
