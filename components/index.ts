@@ -8,4 +8,3 @@ export { AvatarWithIndicator } from './AvatarWithIndicator/AvatarWithIndicator';
 export { BorderedAvatar } from './BorderedAvatar/BorderedAvatar';
 export { BorderedAvatarWithIndicator } from './BorderedAvatarWithIndicator/BorderedAvatarWithIndicator';
 export { ImageUploader } from './ImageUploader/ImageUploader';
-
