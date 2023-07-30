@@ -1,0 +1,9 @@
+{
+  "title": " Avatar With Border",
+  "category": "avatars",
+  "author": "codellyson",
+  "dependencies": ["/core/avatar/"],
+  "canvas": {
+    "center": true
+  }
+}

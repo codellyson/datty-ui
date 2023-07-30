@@ -1,0 +1,9 @@
+{
+  "title": " Avatar With Indicator",
+  "category": "avatars",
+  "author": "codellyson",
+  "dependencies": ["/core/avatar/", "/core/indicator/"],
+  "canvas": {
+    "center": true
+  }
+}

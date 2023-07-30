@@ -6,11 +6,17 @@ export const CATEGORIES: CategoriesGroup[] = [
     categories: [
       { slug: 'color-scheme', name: 'Color scheme toggles' },
       { slug: 'app-cards', name: 'Application cards' },
+      {
+        slug: 'avatars',
+        name: 'Avatars',
+      },
     ],
   }, {
-      name: 'File Uploader',
+      name: 'Uploads',
       categories: [
-        { slug: 'image-uploader', name: 'Image Uploader' },
+        { slug: 'photo-uploader', name: 'Photo Uploader' },
+        { slug: 'photo-uploader-with-cropper', name: 'Photo Uploader with Cropper' },
+        { slug: 'photo-uploader-popup', name: 'Photo Uploader Popup' },
       ],
     }];
 

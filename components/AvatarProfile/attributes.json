@@ -1,0 +1,9 @@
+{
+  "title": "Avatar Profile",
+  "category": "avatars",
+  "author": "codellyson",
+  "dependencies": ["/core/avatar/", "/core/text/"],
+  "canvas": {
+    "center": true
+  }
+}

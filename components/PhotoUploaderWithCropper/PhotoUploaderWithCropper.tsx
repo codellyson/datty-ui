@@ -1,32 +1,32 @@
 import {
-  Group,
-  Text,
-  rem,
-  Stack,
-  createStyles,
   ActionIcon,
-  Modal,
   Box,
-  UnstyledButton,
-  Image,
-  Slider,
-  Center,
   Button,
+  Center,
+  Group,
+  Image,
+  Modal,
+  Slider,
+  Stack,
+  Text,
+  UnstyledButton,
+  createStyles,
+  rem,
 } from '@mantine/core';
+import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import {
-  IconUpload,
-  IconPhoto,
-  IconX,
-  IconLock,
-  IconRotateClockwise2,
-  IconRotateClockwise,
   IconArrowsMoveHorizontal,
   IconArrowsMoveVertical,
+  IconLock,
+  IconPhoto,
+  IconRotateClockwise,
+  IconRotateClockwise2,
+  IconUpload,
+  IconX,
 } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import 'cropperjs/dist/cropper.css';
 import { useEffect, useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
 
 const useStyles = createStyles((theme) => ({
   dropzone: {},
@@ -246,6 +246,7 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
                   value={Zoom}
                   max={2}
                   step={0.1}
+                  label={null}
                   onChange={(value) => {
                     setZoom(value);
                   }}
@@ -274,6 +275,7 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
                   max={360}
                   step={1}
                   value={rotate}
+                  label={null}
                   onChange={(value) => {
                     setRotate(value);
                   }}

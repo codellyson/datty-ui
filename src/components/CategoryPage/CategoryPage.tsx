@@ -1,8 +1,8 @@
 import { Container } from '@mantine/core';
 import Head from 'next/head';
-import { ComponentCanvas } from '../ComponentCanvas/ComponentCanvas';
-import { CategoryHeader } from '../CategoryHeader/CategoryHeader';
 import { Category, UiComponent } from '../../data';
+import { CategoryHeader } from '../CategoryHeader/CategoryHeader';
+import { ComponentCanvas } from '../ComponentCanvas/ComponentCanvas';
 
 interface CategoryPageProps {
   category: Category;
@@ -17,7 +17,7 @@ export function CategoryPage({ category, components }: CategoryPageProps) {
   return (
     <>
       <Head>
-        <title>{`${category.name} | Mantine UI`}</title>
+        <title>{`${category.name} | Datty UI`}</title>
       </Head>
       <Container size="xl" mt={50}>
         <CategoryHeader category={category} />

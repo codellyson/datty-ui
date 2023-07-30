@@ -1,6 +1,6 @@
 {
     "title": "Photo Uploader with Cropper",
-    "category": "file-upload",
+    "category": "uploads",
     "author": "codellyson",
     "dependencies": ["/core/action-icon/", "@tabler/icons-react", "react-cropper" ],
     "canvas": {
