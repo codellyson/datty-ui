@@ -23,7 +23,7 @@ import {
   IconArrowsMoveHorizontal,
   IconArrowsMoveVertical,
 } from '@tabler/icons-react';
-import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { Dropzone, DropzoneProps, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useEffect, useRef, useState } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
@@ -90,8 +90,8 @@ interface PhotoEditorModalProps {
   opened: boolean;
   setOpened: (value: boolean) => void;
   images: string[];
-  setImages(value:string[]): void;
-  selectedImage: string | null ;
+  setImages(value: string[]): void;
+  selectedImage: string | null;
   setSelectedImage: (value: string) => void;
 }
 function PhotoEditorModal(props: PhotoEditorModalProps) {
@@ -102,8 +102,8 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
   const { selectedImage, setSelectedImage, opened, setOpened, images, setImages } = props;
   const [croppedImage, setCroppedImage] = useState<string | null>(null);
   const cropper = cropperRef.current?.cropper;
+  const [aspectRatio, setAspectRatio] = useState('');
 
-  const [aspectRatio] = useState(cropper?.getImageData().aspectRatio);
   const [flipConfig, setFlipConfig] = useState({
     hasFlippedY: false,
     hasFlippedX: false,
@@ -129,10 +129,8 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
   }
   const [movable, setMovable] = useState(false);
   const onCrop = () => {
-    // console.log(cropper);
-    const image = cropper?.getCroppedCanvas().toDataURL();
-    setCroppedImage(image as string);
-    // setSelectedImage(image);
+    const image = cropperRef.current?.cropper?.getCroppedCanvas().toDataURL();
+    setCroppedImage(() => image as string);
   };
 
   useEffect(() => {
@@ -147,13 +145,15 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
   }, [movable]);
 
   function handleSave() {
-    // setImages(()=> images.find)
-    const index = images.indexOf(selectedImage as string);
+    const _images = [...images];
+    const index = _images.indexOf(selectedImage as string);
+
     if (index !== -1) {
-      images[index] = String(croppedImage);
-      setImages(images);
+      _images[index] = String(croppedImage);
+      setImages(_images);
+      setSelectedImage(croppedImage as string);
+      setOpened(false);
     }
-    setSelectedImage(croppedImage as string);
   }
 
   const ASPECT_RATIO = {
@@ -214,45 +214,21 @@ function PhotoEditorModal(props: PhotoEditorModalProps) {
               <IconLock stroke={1.5} size="16" />
             </ActionIcon>
             <Group spacing={0} className={classes.actionButtonGroup} p={0}>
-              <ActionIcon
-                variant={aspectRatio === ASPECT_RATIO.free ? 'filled' : 'outline'}
-                color={theme.primaryColor}
-                size="lg"
-                px="xl"
-                onClick={() => {
-                  console.log(cropper?.getImageData().aspectRatio);
-                  cropper?.setAspectRatio(ASPECT_RATIO.free);
-                }}
-              >
-                <Text size="sm"> Free</Text>
-              </ActionIcon>
-              <ActionIcon
-                variant={aspectRatio === ASPECT_RATIO['4-3'] ? 'filled' : 'outline'}
-                color={theme.primaryColor}
-                size="lg"
-                px="md"
-                onClick={() => cropperRef.current?.cropper.setAspectRatio(ASPECT_RATIO['4-3'])}
-              >
-                <Text size="sm">4:3</Text>
-              </ActionIcon>
-              <ActionIcon
-                variant={aspectRatio === ASPECT_RATIO['16-9'] ? 'filled' : 'outline'}
-                color={theme.primaryColor}
-                size="lg"
-                px="md"
-                onClick={() => cropper?.setAspectRatio(ASPECT_RATIO['16-9'])}
-              >
-                <Text size="sm"> 16:9</Text>
-              </ActionIcon>
-              <ActionIcon
-                variant={aspectRatio === ASPECT_RATIO['1-1'] ? 'filled' : 'outline'}
-                color={theme.primaryColor}
-                size="lg"
-                px="xl"
-                onClick={() => cropper?.setAspectRatio(ASPECT_RATIO['1-1'])}
-              >
-                <Text size="sm"> 1:1 </Text>
-              </ActionIcon>
+              {Object.keys(ASPECT_RATIO).map((key) => (
+                <ActionIcon
+                  key={key}
+                  variant={aspectRatio === JSON.stringify(ASPECT_RATIO[key]) ? 'filled' : 'outline'}
+                  color={theme.primaryColor}
+                  size="lg"
+                  px="md"
+                  onClick={() => {
+                    setAspectRatio(JSON.stringify(ASPECT_RATIO[key]));
+                    cropper?.setAspectRatio(ASPECT_RATIO[key]);
+                  }}
+                >
+                  <Text size="sm">{key.split('-').reduce((acc, cur) => `${acc}:${cur}`)}</Text>
+                </ActionIcon>
+              ))}
             </Group>
 
             {/* Zoom Actions */}
@@ -365,7 +341,7 @@ export function generateBase64FromImage(imageFile: File | Blob) {
   return promise;
 }
 
-export function ImageUploader(props: ImageUploaderProps) {
+export function PhotoUploaderWithCropper(props: ImageUploaderProps) {
   const { classes, theme } = useStyles();
   const [opened, setOpened] = useState(false);
   const [images, setImages] = useState(props.images || []);
@@ -375,22 +351,24 @@ export function ImageUploader(props: ImageUploaderProps) {
   function handleRemoveImage(image: string) {
     setImages((prev) => prev.filter((_image) => image !== _image));
   }
-
+  function convertImagesToBase64(_images: FileWithPath[], index: number) {
+    if (_images.length === 0) return;
+    generateBase64FromImage(_images[index])
+      .then((res: any) => {
+        setImages((prev) => [...prev, res as string]);
+        setSelectedImage(res);
+        setOpened(true);
+      })
+      .catch((err) => console.log(err));
+    convertImagesToBase64(_images, index + 1);
+  }
+  function handleDrop(files: FileWithPath[]) {
+    convertImagesToBase64(files, 0);
+  }
   return (
     <Stack>
       <Dropzone
-        onDrop={(files) => {
-          console.log(files);
-          if (files.length > 0) {
-            generateBase64FromImage(files[0]).then((res: any) => {
-                setImages([...images, res]);
-                setSelectedImage(res);
-                setOpened(true);
-
-              // clearTimeout(timdoe);
-            });
-          }
-        }}
+        onDrop={handleDrop}
         onReject={(files) => {
           console.log(files);
         }}
